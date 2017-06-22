@@ -4,9 +4,9 @@ import styled from 'styled-components/native';
 
 const NavContainer = styled.View`
   width: 100%;
-  height: 5%;
-  padding: 2%;
-  background-color: skyblue;
+  height: 50;
+  padding: 10px;
+  background-color: ${props => props.theme.defaultColor};
   flex-direction: row;
   justify-content: center;
 `;
