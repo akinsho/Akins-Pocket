@@ -5151,6 +5151,10 @@ styled-components@^2.1.0:
     stylis "^3.0.19"
     supports-color "^3.2.3"
 
+styled-props@^1.0.0:
+  version v1.0.0
+  resolved "https://registry.yarnpkg.com/styled-props/-/styled-props-1.0.0.tgz#ccda421a7a4b27566eb6546a844ec8b8828b05e8"
+
 stylis@^3.0.19:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.1.9.tgz#638370451f980437f57c59e58d2e296be29fafb7"

@@ -4,36 +4,82 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  TouchableOpacity
+  Image,
+  TouchableHighlight
 } from 'react-native';
-import styled from 'styled-components';
+import styledProps from 'styled-props';
+import styled from 'styled-components/native';
 
-const CardContainer = styled(FlatList)`
-  flex: 1;
+import { DefaultLink, LinkText, Spinner } from './styled';
+import redditIcon from './Reddit/reddit-icon.png';
+
+const CardContainer = styled.FlatList``;
+
+const CardTitle = styled.Text`
+  font-size: 15;
+  padding: 3px 3px;
 `;
 
-const CardItem = styled(TouchableOpacity)`
-  width: 90%;
-  margin: 10;
-  color: palevioletred;
+const CardContent = styled.View`
+  height: 100;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
+
+const CardArticle = styled.View`
+  width: 70%;
+`;
+
+const Separator = styled.View`
+  height: 0.5;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const RedditIcon = styled.Image`
+  width: 50;
+  height: 50;
+`;
+
 function renderReddit({ item }) {
-  console.log('item', item);
-  console.log('id', item.id);
+  //console.log('item', item);
   return (
-    <CardItem key={item.id}>
-      <Text>
-        {item.title}
-      </Text>
-    </CardItem>
+    <CardContent>
+      <RedditIcon source={redditIcon} />
+      <CardArticle>
+        <CardTitle>
+          {item.title}
+        </CardTitle>
+        {item.selftext.length > 10
+          ? <DefaultLink to={`/articles/${item.id}`}>
+              <Text>See More</Text>
+            </DefaultLink>
+          : <Text>{item.selftext}</Text>}
+      </CardArticle>
+    </CardContent>
   );
 }
 
-export default function Card(props) {
-  console.log('props', props);
-  return (
-    <View>
-      <CardContainer data={props.articles} renderItem={renderReddit} />
-    </View>
-  );
+function renderSeparator() {
+  return <Separator />;
 }
+
+export default function Card({ articles }) {
+  return articles.length // Zero coerces to falsy so don't need to specify length
+    ? <CardContainer
+        contentContainerStyle={styles.center}
+        data={articles}
+        renderItem={renderReddit}
+        //ListHeaderComponent={Nav}
+        ItemSeparatorComponent={renderSeparator}
+        keyExtractor={item => item.id}
+      />
+    : <Spinner />;
+}
+
+const styles = StyleSheet.create({
+  center: {
+    alignItems: 'center'
+  }
+});

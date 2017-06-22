@@ -10,12 +10,14 @@ import rootSaga from './sagas';
 
 import rootReducer from './reducers/';
 import Nav from './components/Nav.js';
-import Reddit from './components/Reddit.js';
+import Reddit from './components/Reddit/';
+import Article from './components/Article.js';
 
 const AppWrapper = styled.View`
   flex: 1;
   background-color: #fff;
   align-items: center;
+  padding: 0px;
 `;
 
 const sagaMiddleware = createSagaMiddleware();
@@ -34,6 +36,7 @@ const App = () => (
         <AppWrapper>
           <Nav />
           <Route exact path="/" component={Reddit} />
+          <Route path="/articles/:id" component={Article} />
         </AppWrapper>
       </ThemeProvider>
     </Provider>
