@@ -1,0 +1,33 @@
+{
+  "name": "akins-pocket",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "flow-bin": "^0.48.0",
+    "jest-expo": "~1.0.1",
+    "react-native-scripts": "0.0.31",
+    "react-test-renderer": "16.0.0-alpha.6"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts start",
+    "flow": "flow",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js --watch"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "expo": "^17.0.0",
+    "react": "16.0.0-alpha.6",
+    "react-native": "^0.44.0",
+    "react-redux": "^5.0.5",
+    "react-router-native": "^4.1.1",
+    "redux": "^3.7.0",
+    "redux-saga": "^0.15.3",
+    "styled-components": "^2.1.0"
+  }
+}
