@@ -4,7 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NativeRouter as Router, Route, Link } from 'react-router-native';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { offline } from 'redux-offline';
+import offlineConfig from 'redux-offline/lib/defaults';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas';
 
@@ -19,9 +21,11 @@ const AppWrapper = styled.View`
   align-items: center;
   padding: 0px;
 `;
-
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+const store = createStore(
+  rootReducer,
+  compose(applyMiddleware(sagaMiddleware), offline(offlineConfig))
+);
 
 sagaMiddleware.run(rootSaga);
 

@@ -27,6 +27,7 @@
     "react-redux": "^5.0.5",
     "react-router-native": "^4.1.1",
     "redux": "^3.7.0",
+    "redux-offline": "^2.0.0",
     "redux-saga": "^0.15.3",
     "styled-components": "^2.1.0",
     "styled-props": "^1.0.0"

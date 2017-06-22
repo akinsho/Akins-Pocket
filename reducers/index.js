@@ -4,7 +4,7 @@ import c from './../constants';
 function reddit(state = [], action) {
   switch (action.type) {
     case c.REDDIT_SUCCESS:
-      return [...state, ...action.articles];
+      return action.articles;
     case c.REDDIT_FAILURE:
     default:
       return state;

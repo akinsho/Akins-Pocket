@@ -17,6 +17,7 @@ class Reddit extends Component {
 
   render() {
     const { reddit, errors } = this.props;
+    console.log('reddit', reddit);
     return (
       <RedditContainer>
         <PageTitle>

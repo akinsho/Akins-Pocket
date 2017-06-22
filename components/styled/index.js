@@ -1,11 +1,12 @@
 import styled from 'styled-components/native';
 import { Link } from 'react-router-native';
-import { Text } from 'react-native';
+import { Text, ActivityIndicator } from 'react-native';
 
 export const PageTitle = styled.Text`
-  padding: 1px 0;
+  padding: 5px 0;
   text-align: center;
   font-size: 20;
+  background-color: whitesmoke;
 `;
 
 export const DefaultLink = styled(Link)`
@@ -18,11 +19,11 @@ export const LinkText = styled.Text`
   text-align: center
 `;
 
-export const Spinner = styled.View`
+export const Spinner = styled(ActivityIndicator)`
   width: 100;
   height: 100;
-  border-radius: 50;
-  background-color: ${props => props.theme.defaultColor}
+  align-self: center;
+  margin-top: 40%;
 `;
 
 export const Body = styled.Text`

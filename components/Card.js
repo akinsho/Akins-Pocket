@@ -7,7 +7,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import styledProps from 'styled-props';
+
 import styled from 'styled-components/native';
 
 import { DefaultLink, LinkText, Spinner } from './styled';
@@ -75,7 +75,7 @@ export default function Card({ articles }) {
         ItemSeparatorComponent={renderSeparator}
         keyExtractor={item => item.id}
       />
-    : <Spinner />;
+    : <Spinner color="skyblue" size="large" />;
 }
 
 const styles = StyleSheet.create({
