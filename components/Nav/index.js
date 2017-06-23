@@ -20,6 +20,13 @@ const Links = styled.View`
   align-items: center;
 `;
 
+const LogoText = styled(AppText)`
+  font-family: Bungee;
+  font-size: 25;
+  color: white;
+  font-weight: 800;
+`;
+
 const Logo = styled.Image`
   width: 50;
   height: 50;
@@ -30,6 +37,7 @@ export default function Nav(props) {
   return (
     <NavContainer>
       <Logo source={logo} alt="solar system logo" />
+      <LogoText>Akin's Pocket</LogoText>
       <Links>
         <DefaultLink to="/">
           <LinkText dark>Reddit</LinkText>

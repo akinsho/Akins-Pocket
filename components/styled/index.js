@@ -3,7 +3,7 @@ import { Link } from 'react-router-native';
 import { Text, ActivityIndicator, Image, View } from 'react-native';
 
 export const AppText = styled.Text`
-  font-family: Helvetica;
+  font-family: Roboto;
 `;
 
 export const PageTitle = styled(AppText)`
