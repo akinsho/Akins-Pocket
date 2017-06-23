@@ -31,7 +31,9 @@ export default function Nav(props) {
     <NavContainer>
       <Logo source={logo} alt="solar system logo" />
       <Links>
-        <DefaultLink to="/"><LinkText dark>Reddit</LinkText></DefaultLink>
+        <DefaultLink to="/">
+          <LinkText dark>Reddit</LinkText>
+        </DefaultLink>
         <DefaultLink to="/hackernoon">
           <LinkText dark>Hackernoon</LinkText>
         </DefaultLink>

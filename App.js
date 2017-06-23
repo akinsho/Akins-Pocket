@@ -13,6 +13,7 @@ import rootSaga from './sagas';
 import rootReducer from './reducers/';
 import Nav from './components/Nav';
 import CustomBar from './components/StatusBar.js';
+import Hackernoon from './components/Hackernoon';
 import Reddit from './components/Reddit/';
 import Article from './components/Article.js';
 
@@ -43,6 +44,7 @@ const App = () => (
           <CustomBar />
           <Nav />
           <Route exact path="/" component={Reddit} />
+          <Route exact path="/hackernoon" component={Hackernoon} />
           <Route path="/articles/:id" component={Article} />
         </AppWrapper>
       </ThemeProvider>

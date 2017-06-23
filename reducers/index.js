@@ -11,6 +11,15 @@ function reddit(state = [], action) {
   }
 }
 
+function hackernoon(state = {}, action) {
+  switch (action.type) {
+    case c.HACKERNOON_SUCCESS:
+      return action.articles;
+    default:
+      return state;
+  }
+}
+
 function errors(state = {}, action) {
   switch (action.type) {
     case c.REDDIT_FAILURE:
@@ -18,12 +27,18 @@ function errors(state = {}, action) {
         ...state,
         reddit: action.error
       };
+    case c.HACKERNOON_FAILURE:
+      return {
+        ...state,
+        hackernoon: action.error
+      };
     default:
       return state;
   }
 }
 
 export default combineReducers({
+  hackernoon,
   reddit,
   errors
 });

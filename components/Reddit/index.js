@@ -3,31 +3,57 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
+import List from './../List.js';
 import { fetchReddit } from './../../actions';
-import Card from './../Card.js';
-import { PageTitle } from './../styled';
+import {
+  PageTitle,
+  DefaultLink,
+  LinkText,
+  AppText,
+  ItemArticle,
+  ItemTitle,
+  SmallIcon,
+  ItemContent
+} from './../styled';
+import redditIcon from './reddit-icon.png';
 
 const RedditContainer = styled.View`
   width: 100%;
   height: 100%;
 `;
 
-class Reddit extends Component {
-  state = {};
+function renderReddit({ item }) {
+  return (
+    <ItemContent>
+      <SmallIcon source={redditIcon} />
+      <ItemArticle>
+        <ItemTitle>
+          {item.title}
+        </ItemTitle>
+        {item.selftext.length > 10
+          ? <DefaultLink to={`/articles/${item.id}`}>
+              <AppText>See More</AppText>
+            </DefaultLink>
+          : <AppText>{item.selftext}</AppText>}
+      </ItemArticle>
+    </ItemContent>
+  );
+}
 
-  render() {
-    const { reddit, errors } = this.props;
-    console.log('reddit', reddit);
-    return (
-      <RedditContainer>
-        <PageTitle>
-          Reddit
-        </PageTitle>
-        <Card articles={reddit} />
-        {errors.reddit && <Text>{errors.reddit}</Text>}
-      </RedditContainer>
-    );
-  }
+function Reddit({ reddit, errors }) {
+  return (
+    <RedditContainer>
+      <PageTitle>
+        Reddit
+      </PageTitle>
+      <List
+        renderItems={renderReddit}
+        findKey={item => item.id}
+        articles={reddit}
+      />
+      {errors.reddit && <Text>{errors.reddit}</Text>}
+    </RedditContainer>
+  );
 }
 
 const mapStateToProps = ({ reddit, errors }) => ({
@@ -35,8 +61,4 @@ const mapStateToProps = ({ reddit, errors }) => ({
   errors
 });
 
-const mapDispatchToProps = dispatch => ({
-  //fetchReddit
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Reddit);
+export default connect(mapStateToProps)(Reddit);
