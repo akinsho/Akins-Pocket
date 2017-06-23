@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 import { NativeRouter as Router, Route, Link } from 'react-router-native';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { Provider } from 'react-redux';
@@ -11,7 +11,8 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas';
 
 import rootReducer from './reducers/';
-import Nav from './components/Nav.js';
+import Nav from './components/Nav';
+import CustomBar from './components/StatusBar.js';
 import Reddit from './components/Reddit/';
 import Article from './components/Article.js';
 
@@ -30,7 +31,8 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 const theme = {
-  defaultColor: 'skyblue'
+  defaultColor: '#00897B',
+  status: '#79B45D'
 };
 
 const App = () => (
@@ -38,6 +40,7 @@ const App = () => (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <AppWrapper>
+          <CustomBar />
           <Nav />
           <Route exact path="/" component={Reddit} />
           <Route path="/articles/:id" component={Article} />

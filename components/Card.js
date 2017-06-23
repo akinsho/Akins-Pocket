@@ -10,18 +10,18 @@ import {
 
 import styled from 'styled-components/native';
 
-import { DefaultLink, LinkText, Spinner } from './styled';
+import { DefaultLink, LinkText, AppText, Spinner } from './styled';
 import redditIcon from './Reddit/reddit-icon.png';
 
 const CardContainer = styled.FlatList``;
 
-const CardTitle = styled.Text`
-  font-size: 15;
-  padding: 3px 3px;
+const CardTitle = styled(AppText)`
+  font-size: 20;
+  padding: 1px 3px;
 `;
 
 const CardContent = styled.View`
-  height: 100;
+  height: 150;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -53,9 +53,9 @@ function renderReddit({ item }) {
         </CardTitle>
         {item.selftext.length > 10
           ? <DefaultLink to={`/articles/${item.id}`}>
-              <Text>See More</Text>
+              <AppText>See More</AppText>
             </DefaultLink>
-          : <Text>{item.selftext}</Text>}
+          : <AppText>{item.selftext}</AppText>}
       </CardArticle>
     </CardContent>
   );
