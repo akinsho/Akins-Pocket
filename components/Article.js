@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { WebView, View, StyleSheet, ScrollView, Text } from 'react-native';
 import HTMLView from 'react-native-htmlview';
+import Markdown from 'react-native-simple-markdown';
 import styled from 'styled-components/native';
 
 import { PageTitle, Body } from './styled';
@@ -18,9 +19,13 @@ const Title = styled(PageTitle)`
   background-color: whitesmoke;
 `;
 
+const MarkdownContainer = styled.View`
+  flex-direction: column;
+  padding: 20px;
+`;
+
 function Article({ history, reddit, location, match }) {
   if (location.state && location.state.referrer === 'hackernoon') {
-    console.log('in hackernoon');
     return <WebView source={{ uri: location.search }} />;
   } else {
     const { id } = match.params;
@@ -30,13 +35,20 @@ function Article({ history, reddit, location, match }) {
         <Title>
           {trimText(article.title)}
         </Title>
-        {/* TODO needs a markdown previewer */}
-        <HTMLView value={article.selftext}>{article.selftext}</HTMLView>
+        <MarkdownContainer>
+          <Markdown styles={markdownStyles}>{article.selftext}</Markdown>
+        </MarkdownContainer>
       </ArticleContainer>
     );
   }
 }
 
 const mapStateToProps = ({ reddit }) => ({ reddit });
+
+const markdownStyles = {
+  text: {
+    fontSize: 18
+  }
+};
 
 export default connect(mapStateToProps)(Article);

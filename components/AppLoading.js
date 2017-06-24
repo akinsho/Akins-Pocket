@@ -7,7 +7,7 @@ export default function AppLoading(props) {
   return (
     <View>
       <Container>
-        <Spinner />
+        <Spinner size="large" />
       </Container>
     </View>
   );

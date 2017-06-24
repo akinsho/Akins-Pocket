@@ -21,21 +21,17 @@ const ListContainer = styled.FlatList`
   flex: 1;
 `;
 
-function renderSeparator() {
-  return <Separator />;
-}
-
 function List({ findKey, articles, renderItems }) {
+  //ListHeaderComponent={Nav}
   return articles.length // Zero coerces to falsy so don't need to specify length
     ? <ListContainer
         contentContainerStyle={styles.center}
         data={articles}
         renderItem={renderItems}
-        //ListHeaderComponent={Nav}
-        ItemSeparatorComponent={renderSeparator}
+        ItemSeparatorComponent={Separator}
         keyExtractor={findKey}
       />
-    : <Spinner color="skyblue" size="large" />;
+    : <Spinner size="large" />;
 }
 
 const styles = StyleSheet.create({
