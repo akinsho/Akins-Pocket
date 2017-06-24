@@ -37,7 +37,17 @@ function errors(state = {}, action) {
   }
 }
 
+function navigation(state = '', action) {
+  switch (action.type) {
+    case c.REDIRECT:
+      return action.url;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
+  navigation,
   hackernoon,
   reddit,
   errors

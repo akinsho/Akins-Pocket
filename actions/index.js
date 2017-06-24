@@ -14,3 +14,8 @@ export const hackernoonFailure = e => ({
   type: c.HACKERNOON_FAILURE,
   error: e
 });
+
+export const navigationUrl = url => ({
+  type: c.REDIRECT,
+  url
+});

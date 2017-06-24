@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { NativeRouter as Router, Route, Link } from 'react-router-native';
+import { MemoryRouter as Router, Route, Link } from 'react-router-native';
 import styled, { ThemeProvider } from 'styled-components/native';
 import { Provider } from 'react-redux';
 import { Font } from 'expo';
