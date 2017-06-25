@@ -44,11 +44,13 @@ const theme = {
 
 const { directions: { SWIPE_LEFT, SWIPE_RIGHT } } = swipeable;
 
-@swipeable({
-  horizontal: true,
-  vertical: true,
-  continuous: false
-})
+//TODO this module breaks normal scrolling
+//@swipeable({
+//horizontal: true,
+//vertical: false,
+//continuous: false
+//})
+
 class App extends Component {
   state = {
     fontloaded: false
@@ -64,7 +66,7 @@ class App extends Component {
   }
 
   render() {
-    const { swipe: { direction } } = this.props;
+    //const { swipe: { direction } } = this.props;
     switch (true) {
       case !this.state.fontLoaded:
         return <AppLoading />;
@@ -79,17 +81,17 @@ class App extends Component {
                   <PropsRoute
                     exact
                     path="/"
-                    swipe={direction}
+                    //swipe={direction}
                     component={Reddit}
                   />
                   <PropsRoute
                     path="/hackernoon"
-                    swipe={direction}
+                    //swipe={direction}
                     component={Hackernoon}
                   />
                   <PropsRoute
                     path="/articles/:id"
-                    swipe={direction}
+                    //swipe={direction}
                     component={Article}
                   />
                 </AppWrapper>

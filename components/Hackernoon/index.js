@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, WebView } from 'react-native';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-native';
 import styled from 'styled-components/native';
+import { getHackernoonSelector } from './../../selectors';
 import HTMLView from 'react-native-htmlview';
 import DOMParser from 'react-native-html-parser';
 
@@ -126,6 +127,8 @@ class Hackernoon extends Component {
   }
 }
 
-const mapStateToProps = ({ hackernoon }) => ({ hackernoon });
+const mapStateToProps = ({ hackernoon }) => ({
+  hackernoon: getHackernoonSelector(hackernoon)
+});
 
 export default connect(mapStateToProps, { navigationUrl })(Hackernoon);

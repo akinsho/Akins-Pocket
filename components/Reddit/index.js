@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-native';
 import { trimText } from './../utils';
 import List from './../List.js';
 import { fetchReddit } from './../../actions';
+import { getRedditSelector } from './../../selectors';
 import {
   PageTitle,
   DefaultLink,
@@ -73,7 +74,7 @@ function Reddit({ reddit, errors, swipe }) {
 }
 
 const mapStateToProps = ({ reddit, errors }) => ({
-  reddit,
+  reddit: getRedditSelector(reddit),
   errors
 });
 
