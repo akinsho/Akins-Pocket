@@ -31,6 +31,8 @@ const fetchRedditArticles = url =>
     .then(json => fetchRedditItem(json.data));
 
 const fetchRedditComments = url =>
+  //TODO error is being thrown and caught but likely killing all results if
+  //there's a single error ...
   fetch(url)
     .then(res => {
       if (res.ok) {
@@ -39,35 +41,32 @@ const fetchRedditComments = url =>
         throw new Error('Response is not OK');
       }
     })
-    .then(json => json.map(comment => fetchRedditItem(comment.data)))
-    .catch(e => []); //if there are no comments return an empty array
+    .then(json => json.map(comment => fetchRedditItem(comment.data)));
 
 const parseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const hackernoonArticles = url =>
-  fetch(parseUrl + url).then(res => res.json()).then(({ feed, items }) => ({
-    feed,
-    items
-  }));
+  fetch(parseUrl + url)
+    .then(res => res.json())
+    .then(({ feed, items }) => ({ feed, items }));
 
 function* fetchComments(articles) {
-  const comments = yield all(
-    articles.map(article => {
-      const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
-      return call(fetchRedditComments, redditCommentsUrl);
-    })
-  );
-  //Check all comments in there are non then return empty the articles with
-  //empty comment arrays
-  if (comments.every(comment => !comment.length)) {
+  try {
+    const comments = yield all(
+      articles.map(article => {
+        const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
+        return call(fetchRedditComments, redditCommentsUrl);
+      })
+    );
+    return comments.map(item => {
+      return {
+        //Too deeply nested due to multiple maps above ... TODO
+        article: item[0][0],
+        comments: item[1]
+      };
+    });
+  } catch (e) {
     return articles.map(article => ({ article, comments: [] }));
   }
-  return comments.map(item => {
-    return {
-      //Too deeply nested due to multiple maps above ... TODO
-      article: item[0][0],
-      comments: item[1]
-    };
-  });
 }
 
 function* getArticles(url) {
