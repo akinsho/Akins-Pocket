@@ -1,4 +1,4 @@
-import { take, select, put, call, fork, takeLatest } from 'redux-saga/effects';
+import { take, select, put, call, fork, all } from 'redux-saga/effects';
 
 import * as actions from './../actions';
 import c from './../constants/';
@@ -20,11 +20,25 @@ const fetchRedditItem = ({ children }) => {
 };
 
 const fetchRedditArticles = url =>
-  fetch(url).then(res => res.json()).then(json => fetchRedditItem(json.data));
+  fetch(url)
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.json().message);
+      }
+    })
+    .then(json => fetchRedditItem(json.data));
 
 const fetchRedditComments = url =>
   fetch(url)
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Response is not OK');
+      }
+    })
     .then(json => json.map(comment => fetchRedditItem(comment.data)));
 
 const parseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
@@ -35,10 +49,12 @@ const hackernoonArticles = url =>
   }));
 
 function* fetchComments(articles) {
-  const comments = yield articles.map(article => {
-    const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
-    return call(fetchRedditComments, redditCommentsUrl);
-  });
+  const comments = yield all(
+    articles.map(article => {
+      const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
+      return call(fetchRedditComments, redditCommentsUrl);
+    })
+  );
   return comments.map(item => {
     return {
       //Too deeply nested due to multiple maps above ... TODO
@@ -49,12 +65,12 @@ function* fetchComments(articles) {
 }
 
 function* getArticles(url) {
-  console.log('getting', url);
-  const articles = yield call(fetchRedditArticles, url);
-  const itemisedArticles = yield call(fetchComments, articles);
   try {
+    const articles = yield call(fetchRedditArticles, url);
+    const itemisedArticles = yield call(fetchComments, articles);
     yield put(actions.redditSuccess(itemisedArticles));
   } catch (e) {
+    console.log('error', e);
     yield put(actions.redditFailure(e));
   }
 }
@@ -66,19 +82,8 @@ function* initialFetch() {
 function* fetchSubReddit() {
   yield take(c.FETCH_REDDIT);
   const subreddit = yield select(state => state.search);
-  console.log('fetch', subreddit);
   const redditUrl = `http://www.reddit.com/r/${subreddit}/new.json?sort=new`;
   yield fork(getArticles, redditUrl);
-  //try {
-  //const subreddit = yield select(state => state.search);
-  //const redditUrl = `http://www.reddit.com/r/${subreddit}/new.json?sort=new`;
-  //const articles = yield call(fetchRedditArticles, redditUrl);
-  //const newSubreddit = yield call(fetchComments, articles);
-  //console.log('newSubreddit', newSubreddit);
-  //yield put(actions.redditSuccess(newSubreddit));
-  //} catch (e) {
-  //yield put(actions.redditFailure(e));
-  //}
 }
 
 function* getHNArticles() {
@@ -91,8 +96,9 @@ function* getHNArticles() {
 }
 
 export default function* root() {
-  yield fork(initialFetch, redditUrl);
-  yield fork(getHNArticles);
-  yield fork(fetchSubReddit);
-  //takeLatest(c.FETCH_REDDIT, fetchSubReddit)
+  yield all([
+    fork(initialFetch, redditUrl),
+    fork(getHNArticles),
+    fork(fetchSubReddit)
+  ]);
 }

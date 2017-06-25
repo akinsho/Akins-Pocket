@@ -56,22 +56,24 @@ function renderReddit({ item }) {
 }
 
 function Reddit({ reddit, errors, swipe }) {
-  if (swipe === 'SWIPE_RIGHT') {
-    return <Redirect to="/hackernoon" />;
+  switch (true) {
+    case errors.reddit:
+      console.log('error in reddit comp', errors);
+      return <Text>{errors.reddit.message}</Text>;
+    default:
+      return (
+        <RedditContainer>
+          <PageTitle>
+            Reddit
+          </PageTitle>
+          <List
+            renderItems={renderReddit}
+            findKey={item => item.article.id}
+            articles={reddit}
+          />
+        </RedditContainer>
+      );
   }
-  return (
-    <RedditContainer>
-      <PageTitle>
-        Reddit
-      </PageTitle>
-      <List
-        renderItems={renderReddit}
-        findKey={(item, index) => (item.article ? item.article.id : item.id)}
-        articles={reddit}
-      />
-      {errors.reddit && <Text>{errors.reddit.message}</Text>}
-    </RedditContainer>
-  );
 }
 
 const mapStateToProps = ({ reddit, errors }) => ({

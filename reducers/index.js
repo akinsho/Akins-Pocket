@@ -29,18 +29,13 @@ function hackernoon(state = {}, action) {
   }
 }
 
-function errors(state = {}, action) {
+function errors(state = '', action) {
   switch (action.type) {
     case c.REDDIT_FAILURE:
-      return {
-        ...state,
-        reddit: action.error
-      };
+      console.log('failure', action.error);
+      return action.error;
     case c.HACKERNOON_FAILURE:
-      return {
-        ...state,
-        hackernoon: action.error
-      };
+      return action.error;
     default:
       return state;
   }

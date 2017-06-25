@@ -8,7 +8,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { offline } from 'redux-offline';
 import offlineConfig from 'redux-offline/lib/defaults';
 import createSagaMiddleware from 'redux-saga';
-import { swipeable } from 'react-native-gesture-recognizers';
 
 import rootSaga from './sagas';
 
@@ -42,15 +41,6 @@ const theme = {
   status: '#79B45D'
 };
 
-const { directions: { SWIPE_LEFT, SWIPE_RIGHT } } = swipeable;
-
-//TODO this module breaks normal scrolling
-//@swipeable({
-//horizontal: true,
-//vertical: false,
-//continuous: false
-//})
-
 class App extends Component {
   state = {
     fontloaded: false
@@ -66,40 +56,26 @@ class App extends Component {
   }
 
   render() {
-    //const { swipe: { direction } } = this.props;
-    switch (true) {
-      case !this.state.fontLoaded:
-        return <AppLoading />;
-      default:
-        return (
-          <Router>
-            <Provider store={store}>
-              <ThemeProvider theme={theme}>
-                <AppWrapper>
-                  <CustomBar />
-                  <Nav />
-                  <PropsRoute
-                    exact
-                    path="/"
-                    //swipe={direction}
-                    component={Reddit}
-                  />
-                  <PropsRoute
-                    path="/hackernoon"
-                    //swipe={direction}
-                    component={Hackernoon}
-                  />
-                  <PropsRoute
-                    path="/articles/:id"
-                    //swipe={direction}
-                    component={Article}
-                  />
-                </AppWrapper>
-              </ThemeProvider>
-            </Provider>
-          </Router>
-        );
+    if (!this.state.fontLoaded) {
+      return <AppLoading />;
     }
+
+    return (
+      <Router>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            <AppWrapper>
+              <CustomBar />
+              <Nav />
+              <PropsRoute exact path="/" component={Reddit} />
+              <PropsRoute path="/hackernoon" component={Hackernoon} />
+              <PropsRoute path="/articles/:id" component={Article} />
+            </AppWrapper>
+          </ThemeProvider>
+        </Provider>
+      </Router>
+    );
   }
 }
+
 export default App;
