@@ -15,7 +15,7 @@ export const PageTitle = styled(AppText)`
 `;
 
 export const DefaultLink = styled(Link)`
-  margin: 0px 8px;
+  ${props => (props.margin ? 'margin: 0px 8px;' : '')}
 `;
 
 export const LinkText = styled(AppText)`
@@ -29,7 +29,6 @@ export const Spinner = styled(ActivityIndicator)`
   width: 100;
   height: 100;
   align-self: center;
-  margin-top: 40%;
 `;
 
 export const Body = styled(AppText)`
@@ -66,7 +65,7 @@ export const ItemContent = styled.View`
   height: 150;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 export const ItemArticle = styled.View`
   width: 70%;

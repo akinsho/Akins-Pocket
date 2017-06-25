@@ -25,8 +25,8 @@ const LogoContainer = styled(Links)`
 `;
 
 const LogoText = styled(AppText)`
-  font-family: Bungee;
-  font-size: 25;
+  font-family: Inconsolata;
+  font-size: 28;
   color: white;
   font-weight: 800;
 `;
@@ -45,10 +45,10 @@ export default function Nav(props) {
         <LogoText>Akin's Pocket</LogoText>
       </LogoContainer>
       <Links>
-        <DefaultLink to="/">
+        <DefaultLink margin to="/">
           <LinkText dark>Reddit</LinkText>
         </DefaultLink>
-        <DefaultLink to="/hackernoon">
+        <DefaultLink margin to="/hackernoon">
           <LinkText dark>Hackernoon</LinkText>
         </DefaultLink>
       </Links>

@@ -63,7 +63,6 @@ function* getHNArticles() {
   }
 }
 
-export default function*() {
-  yield fork(getArticles);
-  yield fork(getHNArticles);
+export default function* root() {
+  yield fork[(getArticles, getHNArticles)];
 }

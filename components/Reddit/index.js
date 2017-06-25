@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+import { Redirect } from 'react-router-native';
 
 import { trimText } from './../utils';
 import List from './../List.js';
@@ -44,7 +45,7 @@ function renderReddit({ item }) {
         <NumberOfComments>
           Comments: {item.comments ? item.comments.length : 'No Comments'}
         </NumberOfComments>
-        <DefaultLink to={`/articles/${item.article.id}`}>
+        <DefaultLink margin={false} to={`/articles/${item.article.id}`}>
           <RedditLink>See More</RedditLink>
         </DefaultLink>
       </ItemArticle>
@@ -52,7 +53,10 @@ function renderReddit({ item }) {
   );
 }
 
-function Reddit({ reddit, errors }) {
+function Reddit({ reddit, errors, swipe }) {
+  if (swipe === 'SWIPE_RIGHT') {
+    return <Redirect to="/hackernoon" />;
+  }
   return (
     <RedditContainer>
       <PageTitle>

@@ -4344,6 +4344,10 @@ react-native-branch@2.0.0-beta.3:
   dependencies:
     eventemitter3 "^2.0.2"
 
+react-native-gesture-recognizers@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-recognizers/-/react-native-gesture-recognizers-0.3.0.tgz#b6fdc70787e40801b267de41d9cccef0b963e46b"
+
 react-native-html-parser@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/react-native-html-parser/-/react-native-html-parser-0.0.4.tgz#eb6f856d161ae46ef38d03a0ceb953397dd4e4fc"
@@ -4396,9 +4400,9 @@ react-native-scripts@0.0.31:
     color "^0.11.1"
     lodash "^4.16.6"
 
-"react-native-tabular-grid@github:benjamin-dobell/react-native-tabular-grid":
+"react-native-tabular-grid@github:Benjamin-Dobell/react-native-tabular-grid":
   version "0.0.0-development"
-  resolved "https://codeload.github.com/benjamin-dobell/react-native-tabular-grid/tar.gz/64853b096f77ddcd9ffcf8e8045ab91b16e054b1"
+  resolved "https://codeload.github.com/Benjamin-Dobell/react-native-tabular-grid/tar.gz/64853b096f77ddcd9ffcf8e8045ab91b16e054b1"
 
 react-native-vector-icons@4.1.1:
   version "4.1.1"

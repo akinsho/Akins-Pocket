@@ -8,7 +8,7 @@ import DOMParser from 'react-native-html-parser';
 
 import { navigationUrl } from './../../actions';
 import { ItemTitle, ItemContent, Topic, AppText, Container } from './../styled';
-import { removeReturns } from './../utils';
+import htmlStyles from './HtmlStyles.js';
 import List from './../List.js';
 
 const HackernoonImage = styled.Image`
@@ -48,13 +48,13 @@ const HackerNoonContent = styled.WebView`
 `;
 
 function renderNode(node, index, siblings, parent) {
-  if (node.name === 'img') {
-    return (
-      <HackernoonLargeImage key={index} source={{ uri: node.attribs.src }} />
-    );
-  }
-  if (node.data === '\n') {
-    return null;
+  switch (true) {
+    case node.name === 'img':
+      return (
+        <HackernoonLargeImage key={index} source={{ uri: node.attribs.src }} />
+      );
+    case node.data === '\n':
+      return null;
   }
 }
 
@@ -69,7 +69,7 @@ class Hackernoon extends Component {
 
     const html = parser.parseFromString(item.content, 'text/html');
     //console.log('item', item);
-    console.log('html', html.querySelect(`* > a`));
+    //console.log('html', html.querySelect(`* > a`));
     return (
       <HackerNoonArticle>
         <HackerArticleTitle>
@@ -78,7 +78,7 @@ class Hackernoon extends Component {
         <HTMLView
           value={item.content}
           renderNode={renderNode}
-          stylesheet={styles}
+          stylesheet={htmlStyles}
           onLinkPress={url => this.handleNavigation(url)}
         />
       </HackerNoonArticle>
@@ -92,69 +92,40 @@ class Hackernoon extends Component {
 
   render() {
     const { feed, items } = this.props.hackernoon;
-
-    if (this.state.redirect) {
-      return (
-        <Redirect
-          to={{
-            pathname: '/article',
-            search: this.state.url,
-            state: { referrer: 'hackernoon' }
-          }}
-        />
-      );
+    const { swipe, match } = this.props;
+    switch (true) {
+      case swipe === 'SWIPE_LEFT':
+        return <Redirect to="/" />;
+      case this.state.redirect:
+        return (
+          <Redirect
+            to={{
+              pathname: '/article',
+              search: this.state.url,
+              state: { referrer: 'hackernoon' }
+            }}
+          />
+        );
+      default:
+        return (
+          <Container>
+            <Topic>
+              <HackerTitle>
+                {feed.title}
+              </HackerTitle>
+              <HackernoonImage source={{ uri: feed.image }} />
+            </Topic>
+            <List
+              findKey={item => item.guid}
+              renderItems={this.renderHackernoon}
+              articles={items}
+            />
+          </Container>
+        );
     }
-    return (
-      <Container>
-        <Topic>
-          <HackerTitle>
-            {feed.title}
-          </HackerTitle>
-          <HackernoonImage source={{ uri: feed.image }} />
-        </Topic>
-        <List
-          findKey={item => item.guid}
-          renderItems={this.renderHackernoon}
-          articles={items}
-        />
-      </Container>
-    );
   }
 }
 
-const mapStateToProps = ({ hackernoon }) => ({
-  hackernoon
-});
-
-const styles = StyleSheet.create({
-  img: {
-    width: '500',
-    height: '200'
-  },
-  blockquote: {
-    fontSize: 17
-  },
-  h4: {
-    fontSize: 17
-  },
-  a: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: 'palevioletred'
-  },
-  div: {
-    padding: 10,
-    fontSize: 17
-  },
-  strong: {
-    fontSize: 17,
-    fontWeight: '600'
-  },
-  p: {
-    fontSize: 17,
-    marginLeft: 5,
-    marginRight: 5
-  }
-});
+const mapStateToProps = ({ hackernoon }) => ({ hackernoon });
 
 export default connect(mapStateToProps, { navigationUrl })(Hackernoon);
