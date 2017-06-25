@@ -48,10 +48,10 @@ function* fetchComments(articles) {
   });
 }
 
-function* getArticles(fetch, url) {
-  const articles = yield call(fetch, url);
+function* getArticles(url) {
+  console.log('getting', url);
+  const articles = yield call(fetchRedditArticles, url);
   const itemisedArticles = yield call(fetchComments, articles);
-
   try {
     yield put(actions.redditSuccess(itemisedArticles));
   } catch (e) {
@@ -59,11 +59,19 @@ function* getArticles(fetch, url) {
   }
 }
 
+function* initialFetch() {
+  yield fork(getArticles, redditUrl);
+}
+
 function* fetchSubReddit() {
-  //try {
+  yield take(c.FETCH_REDDIT);
   const subreddit = yield select(state => state.search);
+  console.log('fetch', subreddit);
   const redditUrl = `http://www.reddit.com/r/${subreddit}/new.json?sort=new`;
-  yield call(getArticles, fetchRedditArticles, redditUrl);
+  yield fork(getArticles, redditUrl);
+  //try {
+  //const subreddit = yield select(state => state.search);
+  //const redditUrl = `http://www.reddit.com/r/${subreddit}/new.json?sort=new`;
   //const articles = yield call(fetchRedditArticles, redditUrl);
   //const newSubreddit = yield call(fetchComments, articles);
   //console.log('newSubreddit', newSubreddit);
@@ -83,9 +91,8 @@ function* getHNArticles() {
 }
 
 export default function* root() {
-  yield [
-    fork(getArticles, fetchRedditArticles, redditUrl),
-    fork(getHNArticles),
-    takeLatest(c.FETCH_REDDIT, fetchSubReddit)
-  ];
+  yield fork(initialFetch, redditUrl);
+  yield fork(getHNArticles);
+  yield fork(fetchSubReddit);
+  //takeLatest(c.FETCH_REDDIT, fetchSubReddit)
 }
