@@ -68,7 +68,9 @@ const markdownStyles = {
       fontSize: 18
     },
     comments: {
-      fontSize: 15
+      text: {
+        fontSize: 15
+      }
     }
   }
 };
