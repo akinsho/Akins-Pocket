@@ -55,10 +55,9 @@ function renderReddit({ item }) {
   );
 }
 
-function Reddit({ reddit, errors, swipe }) {
+function Reddit({ reddit, errors }) {
   switch (true) {
     case errors.reddit:
-      console.log('error in reddit comp', errors);
       return <Text>{errors.reddit.message}</Text>;
     default:
       return (

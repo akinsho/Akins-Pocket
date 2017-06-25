@@ -10,7 +10,6 @@ import offlineConfig from 'redux-offline/lib/defaults';
 import createSagaMiddleware from 'redux-saga';
 
 import rootSaga from './sagas';
-
 import { PropsRoute } from './components/utils/RouteHelpers.js';
 import rootReducer from './reducers/';
 import Nav from './components/Nav';
@@ -38,7 +37,9 @@ sagaMiddleware.run(rootSaga);
 
 const theme = {
   defaultColor: '#00897B',
-  status: '#79B45D'
+  status: '#79B45D',
+  light: '#E0F2F1',
+  medium: '#4DB6AC'
 };
 
 class App extends Component {

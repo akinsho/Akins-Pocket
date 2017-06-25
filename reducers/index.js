@@ -32,7 +32,6 @@ function hackernoon(state = {}, action) {
 function errors(state = '', action) {
   switch (action.type) {
     case c.REDDIT_FAILURE:
-      console.log('failure', action.error);
       return action.error;
     case c.HACKERNOON_FAILURE:
       return action.error;

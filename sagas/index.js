@@ -39,7 +39,8 @@ const fetchRedditComments = url =>
         throw new Error('Response is not OK');
       }
     })
-    .then(json => json.map(comment => fetchRedditItem(comment.data)));
+    .then(json => json.map(comment => fetchRedditItem(comment.data)))
+    .catch(e => []); //if there are no comments return an empty array
 
 const parseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const hackernoonArticles = url =>
@@ -55,6 +56,11 @@ function* fetchComments(articles) {
       return call(fetchRedditComments, redditCommentsUrl);
     })
   );
+  //Check all comments in there are non then return empty the articles with
+  //empty comment arrays
+  if (comments.every(comment => !comment.length)) {
+    return articles.map(article => ({ article, comments: [] }));
+  }
   return comments.map(item => {
     return {
       //Too deeply nested due to multiple maps above ... TODO
