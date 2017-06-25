@@ -7,6 +7,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
+import Search from './Search.js';
 
 import styled from 'styled-components/native';
 
@@ -18,25 +19,19 @@ const Separator = styled.View`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 const ListContainer = styled.FlatList`
-  flex: 1;
+  width: 100%;
 `;
 
 function List({ findKey, articles, renderItems }) {
-  return articles.length // Zero coerces to falsy so don't need to specify length
+  return articles.length
     ? <ListContainer
-        contentContainerStyle={styles.center}
         data={articles}
         renderItem={renderItems}
+        ListHeaderComponent={Search}
         ItemSeparatorComponent={Separator}
         keyExtractor={findKey}
       />
     : <Spinner size="large" />;
 }
-
-const styles = StyleSheet.create({
-  center: {
-    alignItems: 'center'
-  }
-});
 
 export default List;

@@ -1,6 +1,6 @@
 import c from './../constants';
 
-export const fetchReddit = () => ({ type: c.FETCH_REDDIT });
+export const fetchReddit = topic => ({ type: c.FETCH_REDDIT, topic });
 
 export const redditSuccess = articles => ({ type: c.REDDIT_SUCCESS, articles });
 

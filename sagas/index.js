@@ -1,6 +1,7 @@
-import { take, put, call, fork } from 'redux-saga/effects';
+import { take, select, put, call, fork, takeLatest } from 'redux-saga/effects';
 
 import * as actions from './../actions';
+import c from './../constants/';
 
 const redditUrl = `http://www.reddit.com/r/vim/new.json?sort=new`;
 const scrapeUrl = `https://job-news-scraper.herokuapp.com/scrapings`;
@@ -33,20 +34,23 @@ const hackernoonArticles = url =>
     items
   }));
 
-function* getArticles() {
-  const articles = yield call(fetchRedditArticles, redditUrl);
+function* fetchComments(articles) {
   const comments = yield articles.map(article => {
     const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
     return call(fetchRedditComments, redditCommentsUrl);
   });
-
-  const itemisedArticles = comments.map(item => {
+  return comments.map(item => {
     return {
       //Too deeply nested due to multiple maps above ... TODO
       article: item[0][0],
       comments: item[1]
     };
   });
+}
+
+function* getArticles(fetch, url) {
+  const articles = yield call(fetch, url);
+  const itemisedArticles = yield call(fetchComments, articles);
 
   try {
     yield put(actions.redditSuccess(itemisedArticles));
@@ -54,6 +58,21 @@ function* getArticles() {
     yield put(actions.redditFailure(e));
   }
 }
+
+function* fetchSubReddit() {
+  //try {
+  const subreddit = yield select(state => state.search);
+  const redditUrl = `http://www.reddit.com/r/${subreddit}/new.json?sort=new`;
+  yield call(getArticles, fetchRedditArticles, redditUrl);
+  //const articles = yield call(fetchRedditArticles, redditUrl);
+  //const newSubreddit = yield call(fetchComments, articles);
+  //console.log('newSubreddit', newSubreddit);
+  //yield put(actions.redditSuccess(newSubreddit));
+  //} catch (e) {
+  //yield put(actions.redditFailure(e));
+  //}
+}
+
 function* getHNArticles() {
   const hackernoon = yield call(hackernoonArticles, hackernoonUrl);
   try {
@@ -64,5 +83,9 @@ function* getHNArticles() {
 }
 
 export default function* root() {
-  yield fork[(getArticles, getHNArticles)];
+  yield [
+    fork(getArticles, fetchRedditArticles, redditUrl),
+    fork(getHNArticles),
+    takeLatest(c.FETCH_REDDIT, fetchSubReddit)
+  ];
 }

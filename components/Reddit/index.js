@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { Redirect } from 'react-router-native';
 
 import { trimText } from './../utils';
+import Search from './../Search.js';
 import List from './../List.js';
 import { fetchReddit } from './../../actions';
 import { getRedditSelector } from './../../selectors';
@@ -65,10 +66,10 @@ function Reddit({ reddit, errors, swipe }) {
       </PageTitle>
       <List
         renderItems={renderReddit}
-        findKey={item => item.article.id}
+        findKey={(item, index) => (item.article ? item.article.id : item.id)}
         articles={reddit}
       />
-      {errors.reddit && <Text>{errors.reddit}</Text>}
+      {errors.reddit && <Text>{errors.reddit.message}</Text>}
     </RedditContainer>
   );
 }

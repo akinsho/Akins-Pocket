@@ -11,6 +11,15 @@ function reddit(state = [], action) {
   }
 }
 
+function search(state = '', action) {
+  switch (action.type) {
+    case c.FETCH_REDDIT:
+      return action.topic;
+    default:
+      return state;
+  }
+}
+
 function hackernoon(state = {}, action) {
   switch (action.type) {
     case c.HACKERNOON_SUCCESS:
@@ -50,5 +59,6 @@ export default combineReducers({
   navigation,
   hackernoon,
   reddit,
+  search,
   errors
 });
