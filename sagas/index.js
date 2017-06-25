@@ -6,10 +6,25 @@ const redditUrl = `http://www.reddit.com/r/vim/new.json?sort=new`;
 const scrapeUrl = `https://job-news-scraper.herokuapp.com/scrapings`;
 const hackernoonUrl = `https://medium.com/feed/@hackernoon`;
 
+const fetchRedditItem = ({ children }) => {
+  if (children.length) {
+    return children.map(child => {
+      if (child.children) {
+        return fetchRedditItem(child);
+      } else {
+        return child.data;
+      }
+    });
+  }
+};
+
 const fetchRedditArticles = url =>
+  fetch(url).then(res => res.json()).then(json => fetchRedditItem(json.data));
+
+const fetchRedditComments = url =>
   fetch(url)
     .then(res => res.json())
-    .then(json => json.data.children.map(article => article.data));
+    .then(json => json.map(comment => fetchRedditItem(comment.data)));
 
 const promisify = fn => (...args) =>
   new Promise((resolve, reject) => {
@@ -30,6 +45,11 @@ const hackernoonArticles = url =>
 
 function* getArticles() {
   const articles = yield call(fetchRedditArticles, redditUrl);
+  const comments = yield articles.map(article => {
+    const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
+    return call(fetchRedditComments, redditCommentsUrl);
+  });
+  console.log('comment', comments);
   try {
     yield put(actions.redditSuccess(articles));
   } catch (e) {

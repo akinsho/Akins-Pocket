@@ -20,6 +20,10 @@ const Links = styled.View`
   align-items: center;
 `;
 
+const LogoContainer = styled(Links)`
+
+`;
+
 const LogoText = styled(AppText)`
   font-family: Bungee;
   font-size: 25;
@@ -30,14 +34,16 @@ const LogoText = styled(AppText)`
 const Logo = styled.Image`
   width: 50;
   height: 50;
-  margin-left: 5px;
+  margin: 0px 8px;
 `;
 
 export default function Nav(props) {
   return (
     <NavContainer>
-      <Logo source={logo} alt="solar system logo" />
-      <LogoText>Akin's Pocket</LogoText>
+      <LogoContainer>
+        <Logo source={logo} alt="solar system logo" />
+        <LogoText>Akin's Pocket</LogoText>
+      </LogoContainer>
       <Links>
         <DefaultLink to="/">
           <LinkText dark>Reddit</LinkText>
