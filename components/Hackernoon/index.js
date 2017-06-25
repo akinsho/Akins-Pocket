@@ -91,8 +91,8 @@ class Hackernoon extends Component {
   };
 
   render() {
-    const { feed, items } = this.props.hackernoon;
-    const { swipe, match } = this.props;
+    const { swipe, match, hackernoon: { feed, items } } = this.props;
+
     switch (true) {
       case swipe === 'SWIPE_LEFT':
         return <Redirect to="/" />;

@@ -25,6 +25,9 @@ const AppWrapper = styled.View`
   flex: 1;
   background-color: #fff;
   padding: 0px;
+  margin: 0px;
+  width: 100%;
+  flex-direction: column;
 `;
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -80,7 +83,6 @@ class App extends Component {
                     component={Reddit}
                   />
                   <PropsRoute
-                    exact
                     path="/hackernoon"
                     swipe={direction}
                     component={Hackernoon}

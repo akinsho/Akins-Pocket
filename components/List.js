@@ -22,7 +22,6 @@ const ListContainer = styled.FlatList`
 `;
 
 function List({ findKey, articles, renderItems }) {
-  //ListHeaderComponent={Nav}
   return articles.length // Zero coerces to falsy so don't need to specify length
     ? <ListContainer
         contentContainerStyle={styles.center}

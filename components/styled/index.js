@@ -7,7 +7,6 @@ export const AppText = styled.Text`
 `;
 
 export const PageTitle = styled(AppText)`
-  width: 100%;
   padding: 5px 0;
   text-align: center;
   font-size: 20;
@@ -63,6 +62,7 @@ export const ItemTitle = styled(AppText)`
 
 export const ItemContent = styled.View`
   height: 150;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
