@@ -26,16 +26,6 @@ const fetchRedditComments = url =>
     .then(res => res.json())
     .then(json => json.map(comment => fetchRedditItem(comment.data)));
 
-const promisify = fn => (...args) =>
-  new Promise((resolve, reject) => {
-    fn(...args, (err, res) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(res);
-    });
-  });
-
 const parseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const hackernoonArticles = url =>
   fetch(parseUrl + url).then(res => res.json()).then(({ feed, items }) => ({
@@ -49,9 +39,17 @@ function* getArticles() {
     const redditCommentsUrl = `https://www.reddit.com/r/vim/comments/${article.id}.json`;
     return call(fetchRedditComments, redditCommentsUrl);
   });
-  console.log('comment', comments);
+
+  const itemisedArticles = comments.map(item => {
+    return {
+      //Too deeply nested due to multiple maps above ... TODO
+      article: item[0][0],
+      comments: item[1]
+    };
+  });
+
   try {
-    yield put(actions.redditSuccess(articles));
+    yield put(actions.redditSuccess(itemisedArticles));
   } catch (e) {
     yield put(actions.redditFailure(e));
   }

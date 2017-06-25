@@ -28,13 +28,16 @@ function renderReddit({ item }) {
       <SmallIcon source={redditIcon} />
       <ItemArticle>
         <ItemTitle>
-          {item.title}
+          {item.article.title}
         </ItemTitle>
-        {item.selftext.length > 10
-          ? <DefaultLink to={`/articles/${item.id}`}>
+        <AppText>
+          Comments: {item.comments ? item.comments.length : 'No Comments'}
+        </AppText>
+        {item.article.selftext.length > 10
+          ? <DefaultLink to={`/articles/${item.article.id}`}>
               <AppText>See More</AppText>
             </DefaultLink>
-          : <AppText>{item.selftext}</AppText>}
+          : <AppText>{item.article.selftext}</AppText>}
       </ItemArticle>
     </ItemContent>
   );
@@ -48,7 +51,7 @@ function Reddit({ reddit, errors }) {
       </PageTitle>
       <List
         renderItems={renderReddit}
-        findKey={item => item.id}
+        findKey={item => item.article.id}
         articles={reddit}
       />
       {errors.reddit && <Text>{errors.reddit}</Text>}

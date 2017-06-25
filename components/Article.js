@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { WebView, View, StyleSheet, ScrollView, Text } from 'react-native';
-import HTMLView from 'react-native-htmlview';
 import Markdown from 'react-native-simple-markdown';
 import styled from 'styled-components/native';
 
-import { PageTitle, Body } from './styled';
+import { PageTitle, Body, AppText } from './styled';
 import { trimText } from './utils';
 
 const ArticleContainer = styled.ScrollView`
@@ -24,19 +23,37 @@ const MarkdownContainer = styled.View`
   padding: 20px;
 `;
 
+const Comments = styled(MarkdownContainer)`
+  border-radius: 7px;
+  border: 1px solid grey;
+  margin: 8px 0;
+`;
+
 function Article({ history, reddit, location, match }) {
   if (location.state && location.state.referrer === 'hackernoon') {
     return <WebView source={{ uri: location.search }} />;
   } else {
     const { id } = match.params;
-    const article = reddit.find(article => article.id === id);
+    const selected = reddit.find(({ article }) => article.id === id);
+    const { article, comments } = selected;
     return (
       <ArticleContainer>
         <Title>
           {trimText(article.title)}
         </Title>
         <MarkdownContainer>
-          <Markdown styles={markdownStyles}>{article.selftext}</Markdown>
+          <Markdown styles={markdownStyles.main}>
+            {article.selftext}
+          </Markdown>
+          {comments &&
+            comments.map(comment => (
+              <Comments key={comment.id}>
+                <AppText>{comment.author}</AppText>
+                <Markdown styles={markdownStyles.comments}>
+                  {comment.body}
+                </Markdown>
+              </Comments>
+            ))}
         </MarkdownContainer>
       </ArticleContainer>
     );
@@ -46,8 +63,13 @@ function Article({ history, reddit, location, match }) {
 const mapStateToProps = ({ reddit }) => ({ reddit });
 
 const markdownStyles = {
-  text: {
-    fontSize: 18
+  main: {
+    text: {
+      fontSize: 18
+    },
+    comments: {
+      fontSize: 15
+    }
   }
 };
 
