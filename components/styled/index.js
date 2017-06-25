@@ -15,7 +15,7 @@ export const PageTitle = styled(AppText)`
 `;
 
 export const DefaultLink = styled(Link)`
-  margin: 0px 7px;
+  margin: 0px 8px;
 `;
 
 export const LinkText = styled(AppText)`
@@ -59,6 +59,7 @@ export const SmallIcon = styled.Image`
 export const ItemTitle = styled(AppText)`
   font-size: 20;
   padding: 1px 3px;
+  margin-bottom: 10px;
 `;
 
 export const ItemContent = styled.View`
@@ -69,4 +70,5 @@ export const ItemContent = styled.View`
 `;
 export const ItemArticle = styled.View`
   width: 70%;
+  align-items: flex-start;
 `;

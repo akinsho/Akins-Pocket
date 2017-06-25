@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
+import { trimText } from './../utils';
 import List from './../List.js';
 import { fetchReddit } from './../../actions';
 import {
@@ -22,6 +23,16 @@ const RedditContainer = styled.View`
   height: 100%;
 `;
 
+const NumberOfComments = styled(AppText)`
+  margin-bottom: 10px;
+`;
+
+const RedditLink = styled(LinkText)`
+  font-weight: bold;
+  font-size: 18;
+  color: ${props => props.theme.defaultColor};
+`;
+
 function renderReddit({ item }) {
   return (
     <ItemContent>
@@ -30,14 +41,12 @@ function renderReddit({ item }) {
         <ItemTitle>
           {item.article.title}
         </ItemTitle>
-        <AppText>
+        <NumberOfComments>
           Comments: {item.comments ? item.comments.length : 'No Comments'}
-        </AppText>
-        {item.article.selftext.length > 10
-          ? <DefaultLink to={`/articles/${item.article.id}`}>
-              <AppText>See More</AppText>
-            </DefaultLink>
-          : <AppText>{item.article.selftext}</AppText>}
+        </NumberOfComments>
+        <DefaultLink to={`/articles/${item.article.id}`}>
+          <RedditLink>See More</RedditLink>
+        </DefaultLink>
       </ItemArticle>
     </ItemContent>
   );

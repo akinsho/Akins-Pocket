@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { WebView, View, StyleSheet, ScrollView, Text } from 'react-native';
-import Markdown from 'react-native-simple-markdown';
+import Markdown from 'react-native-markdown';
 import styled from 'styled-components/native';
 
 import { PageTitle, Body, AppText } from './styled';
@@ -9,6 +9,8 @@ import { trimText } from './utils';
 
 const ArticleContainer = styled.ScrollView`
   flex: 1;
+  width: 100%;
+  height: 100%;
 `;
 
 const Title = styled(PageTitle)`
