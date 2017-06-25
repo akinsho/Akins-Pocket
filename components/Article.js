@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { WebView, View, StyleSheet, ScrollView, Text } from 'react-native';
-import Markdown from 'react-native-markdown';
+import { MarkdownView as Markdown } from 'react-native-markdown-view';
 import styled from 'styled-components/native';
 
 import { PageTitle, Body, AppText } from './styled';
