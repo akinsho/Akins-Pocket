@@ -4,10 +4,9 @@ import {
   LogoContainer,
   Logo,
   LogoText,
-  DefaultLink,
-  LinkText,
   Links
 } from './styles.js';
+import { DefaultLink, AppText, LinkText } from './../styled';
 
 export default function IpadLayout({ logo }) {
   return (
