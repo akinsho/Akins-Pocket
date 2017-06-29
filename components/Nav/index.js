@@ -1,57 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
-import { DefaultLink, AppText, LinkText } from './../styled';
+import styled from 'styled-components/native';
+import IpadLayout from './IpadLayout.js';
+import IphoneLayout from './IphoneLayout.js';
+
 import logo from './solar-system.png';
 
-const NavContainer = styled.View`
-  width: 100%;
-  height: 10%;
-  padding: 20px 3px;
-  background-color: ${props => props.theme.defaultColor};
-  flex-direction: row;
-  justify-content:space-between;
-  align-items: center;
-`;
-
-const Links = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const LogoContainer = styled(Links)`
-
-`;
-
-const LogoText = styled(AppText)`
-  font-family: Inconsolata;
-  font-size: 28;
-  color: white;
-  font-weight: 800;
-`;
-
-const Logo = styled.Image`
-  width: 50;
-  height: 50;
-  margin: 0px 8px;
-`;
-
 export default function Nav(props) {
-  return (
-    <NavContainer>
-      <LogoContainer>
-        <Logo source={logo} alt="solar system logo" />
-        <LogoText>Akin's Pocket</LogoText>
-      </LogoContainer>
-      <Links>
-        <DefaultLink margin to="/">
-          <LinkText dark>Reddit</LinkText>
-        </DefaultLink>
-        <DefaultLink margin to="/hackernoon">
-          <LinkText dark>Hackernoon</LinkText>
-        </DefaultLink>
-      </Links>
-    </NavContainer>
-  );
+  const x = Dimensions.get('window').width;
+  const y = Dimensions.get('window').height;
+  const iPad = [768, 1024];
+  if (iPad.indexOf(x) > -1 && iPad.indexOf(y) > -1) {
+    return <IpadLayout logo={logo} />;
+  } else {
+    return <IphoneLayout logo={logo} />;
+  }
 }

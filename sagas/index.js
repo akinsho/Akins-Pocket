@@ -57,11 +57,11 @@ function* fetchComments(articles) {
         return call(fetchRedditComments, redditCommentsUrl);
       })
     );
-    return comments.map(item => {
+    //Complicated destructuring here
+    return comments.map(([[article], comments]) => {
       return {
-        //Too deeply nested due to multiple maps above ... TODO
-        article: item[0][0],
-        comments: item[1]
+        article,
+        comments
       };
     });
   } catch (e) {

@@ -15,6 +15,7 @@ import rootReducer from './reducers/';
 import Nav from './components/Nav';
 import CustomBar from './components/StatusBar.js';
 import Hackernoon from './components/Hackernoon';
+import Hackernews from './components/Hackernews';
 import Reddit from './components/Reddit/';
 import Article from './components/Article.js';
 import AppLoading from './components/AppLoading.js';
@@ -70,6 +71,7 @@ class App extends Component {
               <Nav />
               <PropsRoute exact path="/" component={Reddit} />
               <PropsRoute path="/hackernoon" component={Hackernoon} />
+              <PropsRoute path="/hackernews" component={Hackernews} />
               <PropsRoute path="/articles/:id" component={Article} />
             </AppWrapper>
           </ThemeProvider>

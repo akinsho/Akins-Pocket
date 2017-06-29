@@ -21,7 +21,7 @@ export const LinkText = styled(AppText)`
   color: ${props => (props.dark ? 'white' : 'black')};
   font-weight: 800;
   text-align: center;
-  font-size: 20;
+  font-size: 16;
 `;
 
 export const Spinner = styled(ActivityIndicator)`
@@ -55,7 +55,7 @@ export const SmallIcon = styled.Image`
 `;
 
 export const ItemTitle = styled(AppText)`
-  font-size: 20;
+  font-size: 16;
   padding: 1px 3px;
   margin-bottom: 10px;
 `;
