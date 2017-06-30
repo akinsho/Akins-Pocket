@@ -4399,6 +4399,10 @@ react-native-scripts@0.0.31:
     qrcode-terminal "^0.11.0"
     xdl "^41.0.0"
 
+react-native-select-list@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-select-list/-/react-native-select-list-1.0.5.tgz#e69048ac6fdbce4d8ec195b97131f19ef4f00e42"
+
 "react-native-svg@https://github.com/expo/react-native-svg/archive/5.1.8-exp.0.tar.gz":
   version "5.1.8"
   resolved "https://github.com/expo/react-native-svg/archive/5.1.8-exp.0.tar.gz#3e43c57b035dee616336fba33565248412474467"

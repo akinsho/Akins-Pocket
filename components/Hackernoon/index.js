@@ -125,7 +125,7 @@ class Hackernoon extends Component {
   }
 }
 
-const mapStateToProps = ({ hackernoon }) => ({
+const mapStateToProps = ({ articles: { hackernoon } }) => ({
   hackernoon: getHackernoonSelector(hackernoon)
 });
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, Picker } from 'react-native';
+import { View, TextInput, Text } from 'react-native';
+import { Select, Option } from 'react-native-select-list';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 
@@ -24,12 +25,12 @@ const SearchInput = styled.TextInput`
   align-self: center;
 `;
 
-const TopicPicker = styled.Picker`
-  width: 30%;
-  margin: 0px 10px;
-  background-color: ${props => props.theme.defaultColor};
-  border: 1px solid grey;
-`;
+//const TopicPicker = styled.Picker`
+//width: 30%;
+//margin: 0px 10px;
+//background-color: ${props => props.theme.defaultColor};
+//border: 1px solid grey;
+//`;
 
 class Search extends Component {
   state = {
@@ -58,13 +59,10 @@ class Search extends Component {
           value={this.state.input}
           placeholder="Search"
         />
-        <TopicPicker
-          selectedValue={this.state.topic}
-          onValueChange={this.handlePickerInput}
-        >
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="javascript" />
-        </TopicPicker>
+        <Select value={this.state.topic} onSelect={this.handlePickerInput}>
+          <Option value="java">Java</Option>
+          <Option value="javascript">JavaScript</Option>
+        </Select>
       </SearchBar>
     );
   }

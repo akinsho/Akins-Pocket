@@ -17,8 +17,11 @@ import {
   ItemArticle,
   ItemTitle,
   SmallIcon,
-  ItemContent
+  ItemContent,
+  NumberOfComments,
+  ButtonLink
 } from './../styled';
+import Button from './../Button.js';
 import redditIcon from './reddit-icon.png';
 
 const RedditContainer = styled.View`
@@ -26,30 +29,18 @@ const RedditContainer = styled.View`
   height: 100%;
 `;
 
-const NumberOfComments = styled(AppText)`
-  margin-bottom: 10px;
-`;
-
-const RedditLink = styled(LinkText)`
-  font-weight: bold;
-  font-size: 18;
-  color: ${props => props.theme.defaultColor};
-`;
-
 function renderReddit({ item }) {
   return (
     <ItemContent>
       <SmallIcon source={redditIcon} />
-      <ItemArticle>
+      <ItemArticle reddit>
         <ItemTitle>
           {item.article.title}
         </ItemTitle>
         <NumberOfComments>
           Comments: {item.comments ? item.comments.length : 'No Comments'}
         </NumberOfComments>
-        <DefaultLink margin={false} to={`/articles/${item.article.id}`}>
-          <RedditLink>See More</RedditLink>
-        </DefaultLink>
+        <Button margin={false} to={`/articles/${item.article.id}`} />
       </ItemArticle>
     </ItemContent>
   );
@@ -75,7 +66,7 @@ function Reddit({ reddit, errors }) {
   }
 }
 
-const mapStateToProps = ({ reddit, errors }) => ({
+const mapStateToProps = ({ articles: { reddit }, errors }) => ({
   reddit: getRedditSelector(reddit),
   errors
 });

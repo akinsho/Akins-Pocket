@@ -1,16 +1,6 @@
 import { combineReducers } from 'redux';
 import c from './../constants';
 
-function reddit(state = [], action) {
-  switch (action.type) {
-    case c.REDDIT_SUCCESS:
-      return action.articles;
-    case c.REDDIT_FAILURE:
-    default:
-      return state;
-  }
-}
-
 function search(state = '', action) {
   switch (action.type) {
     case c.FETCH_REDDIT:
@@ -20,10 +10,24 @@ function search(state = '', action) {
   }
 }
 
-function hackernoon(state = {}, action) {
+function articles(state = {}, action) {
+  const { articles } = action;
   switch (action.type) {
     case c.HACKERNOON_SUCCESS:
-      return action.articles;
+      return {
+        ...state,
+        hackernoon: articles
+      };
+    case c.HACKERNEWS_SUCCESS:
+      return {
+        ...state,
+        hackernews: articles
+      };
+    case c.REDDIT_SUCCESS:
+      return {
+        ...state,
+        reddit: articles
+      };
     default:
       return state;
   }
@@ -34,6 +38,8 @@ function errors(state = '', action) {
     case c.REDDIT_FAILURE:
       return action.error;
     case c.HACKERNOON_FAILURE:
+      return action.error;
+    case c.HACKERNEWS_FAILURE:
       return action.error;
     default:
       return state;
@@ -51,8 +57,7 @@ function navigation(state = '', action) {
 
 export default combineReducers({
   navigation,
-  hackernoon,
-  reddit,
+  articles,
   search,
   errors
 });

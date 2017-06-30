@@ -6,6 +6,15 @@ export const redditSuccess = articles => ({ type: c.REDDIT_SUCCESS, articles });
 
 export const redditFailure = e => ({ type: c.REDDIT_FAILURE, error: e });
 
+export const hackernewsSuccess = articles => ({
+  type: c.HACKERNEWS_SUCCESS,
+  articles
+});
+export const hackernewsFailure = e => ({
+  type: c.HACKERNEWS_FAILURE,
+  error: e
+});
+
 export const hackernoonSuccess = articles => ({
   type: c.HACKERNOON_SUCCESS,
   articles

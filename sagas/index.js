@@ -6,6 +6,48 @@ import c from './../constants/';
 const redditUrl = `http://www.reddit.com/r/vim/new.json?sort=new`;
 const scrapeUrl = `https://job-news-scraper.herokuapp.com/scrapings`;
 const hackernoonUrl = `https://medium.com/feed/@hackernoon`;
+const hackerNewsUrl = `https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty`;
+
+const fetchHackerNews = async url => {
+  try {
+    const ids = await fetch(url).then(res => res.json());
+    const promises = await ids
+      .slice(0, 30)
+      .map(id =>
+        fetch(
+          `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
+        ).then(res => res.json())
+      );
+    return Promise.all(promises);
+  } catch (e) {
+    console.warn('error', e);
+    return e;
+  }
+};
+
+const updateHNStories = async stories => {
+  try {
+    const updatedStories = await Promise.all(
+      stories.map(async story => {
+        if (!story.kids) return story;
+        const kids = await Promise.all(
+          story.kids.map(kid =>
+            fetch(
+              `https://hacker-news.firebaseio.com/v0/item/${kid}.json?print=pretty`
+            ).then(res => res.json())
+          )
+        );
+        return {
+          ...story,
+          kids
+        };
+      })
+    );
+    return updatedStories;
+  } catch (e) {
+    return e;
+  }
+};
 
 const fetchRedditItem = ({ children }) => {
   if (children.length) {
@@ -79,12 +121,21 @@ function* getArticles(url) {
     yield put(actions.redditFailure(e));
   }
 }
+function* getHackerNews(url) {
+  try {
+    const articles = yield call(fetchHackerNews, url);
+    const updatedStories = yield call(updateHNStories, articles);
+    yield put(actions.hackernewsSuccess(updatedStories));
+  } catch (e) {
+    yield put(actions.hackernewsFailure(e));
+  }
+}
 
 function* initialFetch() {
   yield fork(getArticles, redditUrl);
 }
 
-function* fetchSubReddit() {
+function* getSubReddit() {
   yield take(c.FETCH_REDDIT);
   const subreddit = yield select(state => state.search);
   const redditUrl = `http://www.reddit.com/r/${subreddit}/new.json?sort=new`;
@@ -104,6 +155,7 @@ export default function* root() {
   yield all([
     fork(initialFetch, redditUrl),
     fork(getHNArticles),
-    fork(fetchSubReddit)
+    fork(getSubReddit),
+    fork(getHackerNews, hackerNewsUrl)
   ]);
 }

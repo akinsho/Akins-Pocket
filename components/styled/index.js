@@ -67,7 +67,18 @@ export const ItemContent = styled.View`
   align-items: center;
   justify-content: space-around;
 `;
+//align-items: ${props => (props.reddit ? 'flex-start' : 'center')};
 export const ItemArticle = styled.View`
   width: 70%;
-  align-items: flex-start;
+  height: 100%;
+  align-items: center;
+`;
+export const NumberOfComments = styled(AppText)`
+  margin-bottom: 10px;
+`;
+
+export const ButtonLink = styled(LinkText)`
+  font-weight: bold;
+  font-size: 18;
+  color: ${props => props.theme.defaultColor};
 `;

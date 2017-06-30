@@ -31,6 +31,7 @@
     "react-native-htmlview": "^0.9.0",
     "react-native-markdown-view": "^1.0.0",
     "react-native-menu": "^0.21.0",
+    "react-native-select-list": "^1.0.5",
     "react-redux": "^5.0.5",
     "react-router-native": "^4.1.1",
     "redux": "^3.7.0",
