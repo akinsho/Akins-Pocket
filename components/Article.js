@@ -62,7 +62,7 @@ function Article({ history, reddit, location, match }) {
   }
 }
 
-const mapStateToProps = ({ reddit }) => ({ reddit });
+const mapStateToProps = ({ articles: { reddit } }) => ({ reddit });
 
 const markdownStyles = {
   main: {

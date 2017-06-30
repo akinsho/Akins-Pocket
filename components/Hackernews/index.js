@@ -25,15 +25,14 @@ class HackerNews extends Component {
           <NumberOfComments>
             {item.kids ? item.kids.length : 'No comments'}
           </NumberOfComments>
-          <Button to="/hackernoon" value="See More" />
+          <Button to="/hackernoon" />
         </ItemArticle>
       </ItemContent>
     );
   };
   render() {
-    const { hackernews, history } = this.props;
+    const { hackernews } = this.props;
     console.log('hackernews state', hackernews);
-    console.log('history', history);
     return (
       <View>
         <PageTitle>

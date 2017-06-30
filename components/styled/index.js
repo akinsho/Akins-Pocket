@@ -15,6 +15,9 @@ export const PageTitle = styled(AppText)`
 
 export const DefaultLink = styled(Link)`
   ${props => (props.margin ? 'margin: 0px 8px;' : '')}
+  background-color: ${props => props.theme.defaultColor};
+  border-radius: 3px;
+  padding: 4px;
 `;
 
 export const LinkText = styled(AppText)`
@@ -67,11 +70,11 @@ export const ItemContent = styled.View`
   align-items: center;
   justify-content: space-around;
 `;
-//align-items: ${props => (props.reddit ? 'flex-start' : 'center')};
 export const ItemArticle = styled.View`
   width: 70%;
   height: 100%;
-  align-items: center;
+  align-items: ${props => (props.reddit ? 'flex-start' : 'center')};
+  justify-content: center;
 `;
 export const NumberOfComments = styled(AppText)`
   margin-bottom: 10px;
@@ -80,5 +83,5 @@ export const NumberOfComments = styled(AppText)`
 export const ButtonLink = styled(LinkText)`
   font-weight: bold;
   font-size: 18;
-  color: ${props => props.theme.defaultColor};
+  color: white;
 `;
