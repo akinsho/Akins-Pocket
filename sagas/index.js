@@ -8,26 +8,27 @@ const scrapeUrl = `https://job-news-scraper.herokuapp.com/scrapings`;
 const hackernoonUrl = `https://medium.com/feed/@hackernoon`;
 const hackerNewsUrl = `https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty`;
 
-const fetchHackerNews = async url => {
+const fetchHackerNews = url => {
   try {
-    const ids = await fetch(url).then(res => res.json());
-    const promises = await ids
-      .slice(0, 30)
-      .map(id =>
-        fetch(
-          `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
-        ).then(res => res.json())
-      );
-    return Promise.all(promises);
+    const ids = fetch(url).then(res => res.json());
+    return Promise.all(
+      ids
+        .slice(0, 30)
+        .map(id =>
+          fetch(
+            `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
+          ).then(res => res.json())
+        )
+    );
   } catch (e) {
     console.warn('error', e);
     return e;
   }
 };
 
-const updateHNStories = async stories => {
+const updateHNStories = stories => {
   try {
-    const updatedStories = await Promise.all(
+    return Promise.all(
       stories.map(async story => {
         if (!story.kids) return story;
         const kids = await Promise.all(
@@ -37,13 +38,9 @@ const updateHNStories = async stories => {
             ).then(res => res.json())
           )
         );
-        return {
-          ...story,
-          kids
-        };
+        return { ...story, kids };
       })
     );
-    return updatedStories;
   } catch (e) {
     return e;
   }
