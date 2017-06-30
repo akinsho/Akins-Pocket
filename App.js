@@ -72,7 +72,7 @@ class App extends Component {
               <PropsRoute exact path="/" component={Reddit} />
               <PropsRoute path="/hackernoon" component={Hackernoon} />
               <PropsRoute path="/hackernews" component={Hackernews} />
-              <PropsRoute path="/articles/:id" component={Article} />
+              <PropsRoute path="/articles/:location/:id" component={Article} />
             </AppWrapper>
           </ThemeProvider>
         </Provider>

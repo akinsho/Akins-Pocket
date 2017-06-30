@@ -40,7 +40,7 @@ function renderReddit({ item }) {
         <NumberOfComments>
           Comments: {item.comments ? item.comments.length : 'No Comments'}
         </NumberOfComments>
-        <Button margin={false} to={`/articles/${item.article.id}`} />
+        <Button margin={false} to={`/articles/reddit/${item.article.id}`} />
       </ItemArticle>
     </ItemContent>
   );

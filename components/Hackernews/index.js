@@ -15,9 +15,6 @@ import Button from './../Button.js';
 
 class HackerNews extends Component {
   renderHackernews = ({ item }) => {
-    //{item.kids &&
-    //item.kids.map(kid => <AppText key={kid.id}>{kid.text}</AppText>)}
-    //
     return (
       <ItemContent>
         <ItemArticle>
@@ -25,7 +22,7 @@ class HackerNews extends Component {
           <NumberOfComments>
             {item.kids ? item.kids.length : 'No comments'}
           </NumberOfComments>
-          <Button to="/hackernoon" />
+          <Button to={`/articles/hackernews/${item.id}`} />
         </ItemArticle>
       </ItemContent>
     );

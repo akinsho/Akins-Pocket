@@ -31,38 +31,65 @@ const Comments = styled(MarkdownContainer)`
   margin: 8px 0;
 `;
 
-function Article({ history, reddit, location, match }) {
-  if (location.state && location.state.referrer === 'hackernoon') {
-    return <WebView source={{ uri: location.search }} />;
-  } else {
-    const { id } = match.params;
-    const selected = reddit.find(({ article }) => article.id === id);
-    const { article, comments } = selected;
-    return (
-      <ArticleContainer>
-        <Title>
-          {trimText(article.title)}
-        </Title>
+const HACKERNEWS = 'hackernews';
+const HACKERNOON = 'hackernoon';
+
+function Article({ history, articles, match: { params } }) {
+  const { hackernews, hackernoon, reddit } = articles;
+  const { id, location } = params, currentLocation = articles[location];
+  let selected;
+
+  switch (location) {
+    case HACKERNOON:
+      return <WebView source={{ uri: location.search }} />;
+    case HACKERNEWS:
+      selected = currentLocation.find(item => item.id === Number(id));
+      return (
         <MarkdownContainer>
-          <Markdown styles={markdownStyles.main}>
-            {article.selftext}
+          <Markdown styles={markdownStyles.main}>{selected.title}</Markdown>
+          <Markdown>
+            {selected &&
+              selected.kids.map(item => (
+                <Comments key={item.id}>
+                  <AppText>{item.by}</AppText>
+                  <Markdown styles={markdownStyles.comments}>
+                    {item.text}
+                  </Markdown>
+                </Comments>
+              ))}
           </Markdown>
-          {comments &&
-            comments.map(comment => (
-              <Comments key={comment.id}>
-                <AppText>{comment.author}</AppText>
-                <Markdown styles={markdownStyles.comments}>
-                  {comment.body}
-                </Markdown>
-              </Comments>
-            ))}
         </MarkdownContainer>
-      </ArticleContainer>
-    );
+      );
+    default:
+      selected = currentLocation.find(({ article }) => article.id === id);
+      const { article, comments } = selected;
+      return (
+        <ArticleContainer>
+          <Title>
+            {trimText(article.title)}
+          </Title>
+          <MarkdownContainer>
+            <Markdown styles={markdownStyles.main}>
+              {article.selftext}
+            </Markdown>
+            {comments &&
+              comments.map(comment => (
+                <Comments key={comment.id}>
+                  <AppText>{comment.author}</AppText>
+                  <Markdown styles={markdownStyles.comments}>
+                    {comment.body}
+                  </Markdown>
+                </Comments>
+              ))}
+          </MarkdownContainer>
+        </ArticleContainer>
+      );
   }
 }
 
-const mapStateToProps = ({ articles: { reddit } }) => ({ reddit });
+const mapStateToProps = ({ articles }) => ({
+  articles
+});
 
 const markdownStyles = {
   main: {

@@ -99,7 +99,7 @@ class Hackernoon extends Component {
         return (
           <Redirect
             to={{
-              pathname: '/article',
+              pathname: '/articles/hackernoon',
               search: this.state.url,
               state: { referrer: 'hackernoon' }
             }}
