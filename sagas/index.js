@@ -8,9 +8,9 @@ const scrapeUrl = `https://job-news-scraper.herokuapp.com/scrapings`;
 const hackernoonUrl = `https://medium.com/feed/@hackernoon`;
 const hackerNewsUrl = `https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty`;
 
-const fetchHackerNews = url => {
+const fetchHackerNews = async url => {
   try {
-    const ids = fetch(url).then(res => res.json());
+    const ids = await fetch(url).then(res => res.json()); //Await causes function to block here
     return Promise.all(
       ids
         .slice(0, 30)
